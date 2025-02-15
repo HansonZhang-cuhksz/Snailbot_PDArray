@@ -36,12 +36,46 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+typedef __packed struct 
+{
+  uint8_t header;
+  uint16_t luminance[128];
+  uint32_t checksum;
+} VLP_packet_t;
 
+typedef __packed struct 
+{
+  uint8_t header;
+  uint8_t data[256];
+  uint8_t syn;
+  uint32_t checksum;
+} comm_packet_t;
+
+typedef struct{
+	uint16_t adc_values[8];
+	uint8_t adc_done[5];
+	uint16_t VLP_value[128];
+} checker_t;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc2;
+extern ADC_HandleTypeDef hadc3;
+extern ADC_HandleTypeDef hadc4;
+extern ADC_HandleTypeDef hadc5;
+extern DMA_HandleTypeDef hdma_adc1;
+extern DMA_HandleTypeDef hdma_adc2;
+extern DMA_HandleTypeDef hdma_adc3;
+extern DMA_HandleTypeDef hdma_adc4;
+extern DMA_HandleTypeDef hdma_adc5;
+extern CRC_HandleTypeDef hcrc;
+extern UART_HandleTypeDef huart1;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 
+extern VLP_packet_t VLP_packet;
+extern comm_packet_t comm_packet;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

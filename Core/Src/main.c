@@ -18,36 +18,17 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "switch.h"
 #include <string.h>
+#include "adc_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-typedef __packed struct 
-{
-  uint8_t header;
-  uint16_t luminance[128];
-  uint32_t checksum;
-} VLP_packet_t;
 
-typedef struct 
-{
-  uint8_t header;
-  uint8_t data[256];
-  uint8_t syn;
-  uint32_t checksum;
-} comm_packet_t;
-
-typedef struct{
-	uint16_t adc_values[8];
-	uint8_t adc_done[5];
-	uint16_t VLP_value[128];
-} checker_t;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -76,39 +57,16 @@ CRC_HandleTypeDef hcrc;
 
 HRTIM_HandleTypeDef hhrtim1;
 
+TIM_HandleTypeDef htim1;
+
 UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
 
-/* Definitions for UART_task */
-osThreadId_t UART_taskHandle;
-const osThreadAttr_t UART_task_attributes = {
-  .name = "UART_task",
-  .priority = (osPriority_t) osPriorityHigh,
-  .stack_size = 128 * 4
-};
-/* Definitions for ADC_task */
-osThreadId_t ADC_taskHandle;
-const osThreadAttr_t ADC_task_attributes = {
-  .name = "ADC_task",
-  .priority = (osPriority_t) osPriorityRealtime,
-  .stack_size = 128 * 4
-};
-/* Definitions for DFP_task */
-osThreadId_t DFP_taskHandle;
-const osThreadAttr_t DFP_task_attributes = {
-  .name = "DFP_task",
-  .priority = (osPriority_t) osPriorityRealtime,
-  .stack_size = 128 * 4
-};
 /* USER CODE BEGIN PV */
-uint16_t adc_buf1[2];
-uint16_t adc_buf2[3];
-uint16_t adc_buf3[1];
-uint16_t adc_buf4[1];
-uint16_t adc_buf5[1];
-uint16_t adc_values[8];
-uint8_t adc_done[5];
-uint16_t VLP_value[128];
+uint8_t adc_task_watchdog;
+uint8_t uart_task_watchdog;
+uint8_t dsp_task_watchdog;
+
 VLP_packet_t VLP_packet;
 comm_packet_t comm_packet;
 
@@ -127,10 +85,7 @@ static void MX_ADC5_Init(void);
 static void MX_CRC_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_HRTIM1_Init(void);
-void UART_task_func(void *argument);
-void ADC_task_func(void *argument);
-void DFP_task_func(void *argument);
-
+static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -178,53 +133,15 @@ int main(void)
   MX_CRC_Init();
   MX_USART1_UART_Init();
   MX_HRTIM1_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	VLP_packet.header = 0xDD;
   comm_packet.header = 0x56;
   comm_packet.syn = 0;
+	adc_task_watchdog = 1;
+	uart_task_watchdog = 1;
+  dsp_task_watchdog = 1;
   /* USER CODE END 2 */
-
-  /* Init scheduler */
-  osKernelInitialize();
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of UART_task */
-  UART_taskHandle = osThreadNew(UART_task_func, NULL, &UART_task_attributes);
-
-  /* creation of ADC_task */
-  ADC_taskHandle = osThreadNew(ADC_task_func, NULL, &ADC_task_attributes);
-
-  /* creation of DFP_task */
-  DFP_taskHandle = osThreadNew(DFP_task_func, NULL, &DFP_task_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
-
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -248,7 +165,7 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1_BOOST);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -257,8 +174,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV3;
-  RCC_OscInitStruct.PLL.PLLN = 13;
+  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV12;
+  RCC_OscInitStruct.PLL.PLLN = 85;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
@@ -276,7 +193,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_3) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }
@@ -304,7 +221,7 @@ static void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.GainCompensation = 0;
@@ -380,7 +297,7 @@ static void MX_ADC2_Init(void)
   /** Common config
   */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc2.Init.GainCompensation = 0;
@@ -458,7 +375,7 @@ static void MX_ADC3_Init(void)
   /** Common config
   */
   hadc3.Instance = ADC3;
-  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc3.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc3.Init.Resolution = ADC_RESOLUTION_12B;
   hadc3.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc3.Init.GainCompensation = 0;
@@ -525,7 +442,7 @@ static void MX_ADC4_Init(void)
   /** Common config
   */
   hadc4.Instance = ADC4;
-  hadc4.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc4.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc4.Init.Resolution = ADC_RESOLUTION_12B;
   hadc4.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc4.Init.GainCompensation = 0;
@@ -584,7 +501,7 @@ static void MX_ADC5_Init(void)
   /** Common config
   */
   hadc5.Instance = ADC5;
-  hadc5.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc5.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc5.Init.Resolution = ADC_RESOLUTION_12B;
   hadc5.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc5.Init.GainCompensation = 0;
@@ -673,7 +590,11 @@ static void MX_HRTIM1_Init(void)
 
   /* USER CODE END HRTIM1_Init 1 */
   hhrtim1.Instance = HRTIM1;
-  hhrtim1.Init.HRTIMInterruptResquests = HRTIM_IT_NONE;
+  hhrtim1.Init.HRTIMInterruptResquests = HRTIM_IT_SYSFLT|HRTIM_IT_SYSFLT
+                              |HRTIM_IT_SYSFLT|HRTIM_IT_SYSFLT
+                              |HRTIM_IT_SYSFLT|HRTIM_IT_SYSFLT
+                              |HRTIM_IT_SYSFLT|HRTIM_IT_SYSFLT
+                              |HRTIM_IT_SYSFLT;
   hhrtim1.Init.SyncOptions = HRTIM_SYNCOPTION_NONE;
   if (HAL_HRTIM_Init(&hhrtim1) != HAL_OK)
   {
@@ -687,7 +608,7 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
-  pTimeBaseCfg.Period = 0xFFDF;
+  pTimeBaseCfg.Period = 96;
   pTimeBaseCfg.RepetitionCounter = 0x00;
   pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_MUL32;
   pTimeBaseCfg.Mode = HRTIM_MODE_CONTINUOUS;
@@ -714,6 +635,7 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
+  pTimeBaseCfg.Period = 0xFFDF;
   if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimeBaseCfg) != HAL_OK)
   {
     Error_Handler();
@@ -724,8 +646,10 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
-  pTimerCfg.InterruptRequests = HRTIM_TIM_IT_NONE;
+  pTimerCfg.InterruptRequests = HRTIM_TIM_IT_REP;
   pTimerCfg.DMARequests = HRTIM_TIM_DMA_NONE;
+  pTimerCfg.PreloadEnable = HRTIM_PRELOAD_ENABLED;
+  pTimerCfg.RepetitionUpdate = HRTIM_UPDATEONREPETITION_ENABLED;
   pTimerCfg.PushPull = HRTIM_TIMPUSHPULLMODE_DISABLED;
   pTimerCfg.FaultEnable = HRTIM_TIMFAULTENABLE_NONE;
   pTimerCfg.FaultLock = HRTIM_TIMFAULTLOCK_READWRITE;
@@ -738,9 +662,83 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
+  if (HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &pTimerCfg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_C, &pTimerCfg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &pTimeBaseCfg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_HRTIM_WaveformTimerControl(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &pTimerCtl) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_C, &pTimeBaseCfg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_HRTIM_WaveformTimerControl(&hhrtim1, HRTIM_TIMERINDEX_TIMER_C, &pTimerCtl) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN HRTIM1_Init 2 */
-
+	HAL_HRTIM_WaveformCounterStart_IT(&hhrtim1, HRTIM_TIMERID_MASTER);
+	HAL_HRTIM_WaveformCounterStart_IT(&hhrtim1, HRTIM_TIMERID_TIMER_A);
+	HAL_HRTIM_WaveformCounterStart_IT(&hhrtim1, HRTIM_TIMERID_TIMER_B);
+	HAL_HRTIM_WaveformCounterStart_IT(&hhrtim1, HRTIM_TIMERID_TIMER_C);
   /* USER CODE END HRTIM1_Init 2 */
+
+}
+
+/**
+  * @brief TIM1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM1_Init(void)
+{
+
+  /* USER CODE BEGIN TIM1_Init 0 */
+
+  /* USER CODE END TIM1_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM1_Init 1 */
+
+  /* USER CODE END TIM1_Init 1 */
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 0;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim1.Init.RepetitionCounter = 0;
+  htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterOutputTrigger2 = TIM_TRGO2_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM1_Init 2 */
+
+  /* USER CODE END TIM1_Init 2 */
 
 }
 
@@ -804,22 +802,22 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
   /* DMA1_Channel2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
   /* DMA1_Channel3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
   /* DMA1_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
   /* DMA1_Channel5_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
   /* DMA1_Channel6_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel6_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel6_IRQn);
 
 }
@@ -921,114 +919,8 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void get_VLP_value(uint16_t *VLP_value)
-{
-  for(uint8_t i = 0; i < 16; i++)
-  {
-    for(uint8_t switch_num = 0; switch_num < 8; switch_num++)
-    {
-      set_switches(switch_num, i);
-    }
-    
-    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buf1, 2);
-    HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc_buf2, 3);
-    HAL_ADC_Start_DMA(&hadc3, (uint32_t *)adc_buf3, 1);
-    HAL_ADC_Start_DMA(&hadc4, (uint32_t *)adc_buf4, 1);
-    HAL_ADC_Start_DMA(&hadc5, (uint32_t *)adc_buf5, 1);
-    
-    for(uint8_t j = 0; j < 8; j++)
-    {
-      VLP_value[i + j * 16] = adc_values[j];//filter_update(&filter[i + j * 16], adc_values[j]);
-			c.VLP_value[i + j * 16] = adc_values[j];
-			c.adc_values[j] = adc_values[j];
-    }
-  }
-}
+
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_UART_task_func */
-/**
-  * @brief  Function implementing the UART_task thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_UART_task_func */
-void UART_task_func(void *argument)
-{
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    VLP_packet.checksum = HAL_CRC_Calculate(&hcrc, (uint32_t*)&VLP_packet, sizeof(VLP_packet) - sizeof(uint32_t));
-    HAL_UART_Transmit_DMA(&huart1, (uint8_t*)&VLP_packet, sizeof(VLP_packet));
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_ADC_task_func */
-/**
-* @brief Function implementing the ADC_task thread.
-* @param argument: Not used
-* @retval None
-*/
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-    if(hadc->Instance == ADC1)
-    {
-      adc_values[6] = adc_buf1[0];
-      adc_values[1] = adc_buf1[1];
-    }
-    else if(hadc->Instance == ADC2)
-    {
-      adc_values[0] = adc_buf2[0];
-      adc_values[3] = adc_buf2[1];
-      adc_values[2] = adc_buf2[2];
-    }
-    else if(hadc->Instance == ADC3)
-    {
-      adc_values[7] = adc_buf3[0];
-    }
-    else if(hadc->Instance == ADC4)
-    {
-      adc_values[4] = adc_buf4[0];
-    }
-    else if(hadc->Instance == ADC5)
-    {
-      adc_values[5] = adc_buf5[0];
-    }
-}
-/* USER CODE END Header_ADC_task_func */
-void ADC_task_func(void *argument)
-{
-  /* USER CODE BEGIN ADC_task_func */
-  /* Infinite loop */
-  for(;;)
-  {
-    get_VLP_value(VLP_value);
-    // memcpy((void *)VLP_packet.luminance, VLP_value, sizeof(VLP_value));
-    switch_formulate(VLP_value, (uint16_t *)VLP_packet.luminance);
-    osDelay(1);
-  }
-  /* USER CODE END ADC_task_func */
-}
-
-/* USER CODE BEGIN Header_DFP_task_func */
-/**
-* @brief Function implementing the DFP_task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_DFP_task_func */
-void DFP_task_func(void *argument)
-{
-  /* USER CODE BEGIN DFP_task_func */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END DFP_task_func */
-}
 
 /**
   * @brief  This function is executed in case of error occurrence.

@@ -1,8 +1,10 @@
 --cpu Cortex-M4.fp
 "controller\startup_stm32g474xx.o"
 "controller\switch.o"
+"controller\adc_task.o"
+"controller\uart_task.o"
+"controller\dsp_task.o"
 "controller\main.o"
-"controller\app_freertos.o"
 "controller\stm32g4xx_it.o"
 "controller\stm32g4xx_hal_msp.o"
 "controller\stm32g4xx_hal_adc.o"
@@ -29,16 +31,6 @@
 "controller\stm32g4xx_hal_uart.o"
 "controller\stm32g4xx_hal_uart_ex.o"
 "controller\system_stm32g4xx.o"
-"controller\croutine.o"
-"controller\event_groups.o"
-"controller\list.o"
-"controller\queue.o"
-"controller\stream_buffer.o"
-"controller\tasks.o"
-"controller\timers.o"
-"controller\cmsis_os2.o"
-"controller\heap_4.o"
-"controller\port.o"
 --strict --scatter "controller\controller.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
