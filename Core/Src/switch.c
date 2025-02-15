@@ -66,7 +66,43 @@ void set_switches(uint8_t switch_num, uint8_t value)
             HAL_GPIO_WritePin(SEL_2_112_127_GPIO_Port, SEL_2_112_127_Pin, pins[2]);
             HAL_GPIO_WritePin(SEL_3_112_127_GPIO_Port, SEL_3_112_127_Pin, pins[3]);
             break;
+				default:
+						break;
     }
 		free(pins);
 		//for(int i = 0; i < 100; i++){;}
+}
+
+int8_t switch_select(uint8_t num)
+{
+    switch(num)
+    {
+        case 0:
+            return 7;
+        case 1:
+            return 6;
+        case 2:
+            return 1;
+        case 3:
+            return 5;
+        case 4:
+            return 4;
+        case 5:
+            return 2;
+        case 6:
+            return 0;
+        case 7:
+            return 3;
+        default:
+            return -1;
+    }
+}
+
+void switch_formulate(uint16_t* in, uint16_t* out)
+{
+	for (uint8_t i = 0; i < 8; i++)
+    {
+        int8_t target_num = switch_select(i);
+        memcpy(&out[target_num * 16], &in[i * 16], 16 * sizeof(uint16_t));
+    }
 }

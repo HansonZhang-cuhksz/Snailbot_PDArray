@@ -843,22 +843,22 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, SEL_0_96_111_Pin|SEL_0_0_15_Pin|SEL_1_0_15_Pin|SEL_2_0_15_Pin
-                          |SEL_3_0_15_Pin|SEL_0_16_31_Pin|SEL_1_16_31_Pin|SEL_1_64_79_Pin
-                          |SEL_0_64_79_Pin|SEL_3_112_127_Pin|SEL_2_112_127_Pin|SEL_0_112_127_Pin
+  HAL_GPIO_WritePin(GPIOC, SEL_0_96_111_Pin|SEL_2_0_15_Pin|SEL_3_0_15_Pin|SEL_0_0_15_Pin
+                          |SEL_1_0_15_Pin|SEL_2_48_63_Pin|SEL_3_48_63_Pin|SEL_1_64_79_Pin
+                          |SEL_0_64_79_Pin|SEL_2_112_127_Pin|SEL_3_112_127_Pin|SEL_1_112_127_Pin
                           |SEL_3_80_95_Pin|SEL_2_80_95_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, SEL_0_48_63_Pin|SEL_1_48_63_Pin|SEL_2_48_63_Pin|SEL_3_48_63_Pin
-                          |SEL_1_112_127_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, SEL_3_16_31_Pin|SEL_2_16_31_Pin|SEL_1_16_31_Pin|SEL_0_16_31_Pin
+                          |SEL_0_112_127_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, SEL_2_16_31_Pin|SEL_3_16_31_Pin|SEL_1_96_111_Pin|SEL_2_96_111_Pin
-                          |SEL_3_64_79_Pin|SEL_2_64_79_Pin|SEL_0_80_95_Pin|SEL_3_32_47_Pin
-                          |SEL_2_32_47_Pin|SEL_1_32_47_Pin|SEL_0_32_47_Pin|SEL_3_96_111_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SEL_0_48_63_Pin|SEL_1_48_63_Pin|SEL_1_96_111_Pin|SEL_2_96_111_Pin
+                          |SEL_3_64_79_Pin|SEL_2_64_79_Pin|SEL_1_80_95_Pin|SEL_2_32_47_Pin
+                          |SEL_3_32_47_Pin|SEL_0_32_47_Pin|SEL_1_32_47_Pin|SEL_3_96_111_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(SEL_1_80_95_GPIO_Port, SEL_1_80_95_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(SEL_0_80_95_GPIO_Port, SEL_0_80_95_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : SEL_0_96_111_Pin */
   GPIO_InitStruct.Pin = SEL_0_96_111_Pin;
@@ -867,45 +867,45 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(SEL_0_96_111_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SEL_0_0_15_Pin SEL_1_0_15_Pin SEL_2_0_15_Pin SEL_3_0_15_Pin
-                           SEL_0_16_31_Pin SEL_1_16_31_Pin SEL_1_64_79_Pin SEL_0_64_79_Pin
-                           SEL_3_112_127_Pin SEL_2_112_127_Pin SEL_0_112_127_Pin SEL_3_80_95_Pin
+  /*Configure GPIO pins : SEL_2_0_15_Pin SEL_3_0_15_Pin SEL_0_0_15_Pin SEL_1_0_15_Pin
+                           SEL_2_48_63_Pin SEL_3_48_63_Pin SEL_1_64_79_Pin SEL_0_64_79_Pin
+                           SEL_2_112_127_Pin SEL_3_112_127_Pin SEL_1_112_127_Pin SEL_3_80_95_Pin
                            SEL_2_80_95_Pin */
-  GPIO_InitStruct.Pin = SEL_0_0_15_Pin|SEL_1_0_15_Pin|SEL_2_0_15_Pin|SEL_3_0_15_Pin
-                          |SEL_0_16_31_Pin|SEL_1_16_31_Pin|SEL_1_64_79_Pin|SEL_0_64_79_Pin
-                          |SEL_3_112_127_Pin|SEL_2_112_127_Pin|SEL_0_112_127_Pin|SEL_3_80_95_Pin
+  GPIO_InitStruct.Pin = SEL_2_0_15_Pin|SEL_3_0_15_Pin|SEL_0_0_15_Pin|SEL_1_0_15_Pin
+                          |SEL_2_48_63_Pin|SEL_3_48_63_Pin|SEL_1_64_79_Pin|SEL_0_64_79_Pin
+                          |SEL_2_112_127_Pin|SEL_3_112_127_Pin|SEL_1_112_127_Pin|SEL_3_80_95_Pin
                           |SEL_2_80_95_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SEL_0_48_63_Pin SEL_1_48_63_Pin SEL_2_48_63_Pin SEL_3_48_63_Pin
-                           SEL_1_112_127_Pin */
-  GPIO_InitStruct.Pin = SEL_0_48_63_Pin|SEL_1_48_63_Pin|SEL_2_48_63_Pin|SEL_3_48_63_Pin
-                          |SEL_1_112_127_Pin;
+  /*Configure GPIO pins : SEL_3_16_31_Pin SEL_2_16_31_Pin SEL_1_16_31_Pin SEL_0_16_31_Pin
+                           SEL_0_112_127_Pin */
+  GPIO_InitStruct.Pin = SEL_3_16_31_Pin|SEL_2_16_31_Pin|SEL_1_16_31_Pin|SEL_0_16_31_Pin
+                          |SEL_0_112_127_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SEL_2_16_31_Pin SEL_3_16_31_Pin SEL_1_96_111_Pin SEL_2_96_111_Pin
-                           SEL_3_64_79_Pin SEL_2_64_79_Pin SEL_0_80_95_Pin SEL_3_32_47_Pin
-                           SEL_2_32_47_Pin SEL_1_32_47_Pin SEL_0_32_47_Pin SEL_3_96_111_Pin */
-  GPIO_InitStruct.Pin = SEL_2_16_31_Pin|SEL_3_16_31_Pin|SEL_1_96_111_Pin|SEL_2_96_111_Pin
-                          |SEL_3_64_79_Pin|SEL_2_64_79_Pin|SEL_0_80_95_Pin|SEL_3_32_47_Pin
-                          |SEL_2_32_47_Pin|SEL_1_32_47_Pin|SEL_0_32_47_Pin|SEL_3_96_111_Pin;
+  /*Configure GPIO pins : SEL_0_48_63_Pin SEL_1_48_63_Pin SEL_1_96_111_Pin SEL_2_96_111_Pin
+                           SEL_3_64_79_Pin SEL_2_64_79_Pin SEL_1_80_95_Pin SEL_2_32_47_Pin
+                           SEL_3_32_47_Pin SEL_0_32_47_Pin SEL_1_32_47_Pin SEL_3_96_111_Pin */
+  GPIO_InitStruct.Pin = SEL_0_48_63_Pin|SEL_1_48_63_Pin|SEL_1_96_111_Pin|SEL_2_96_111_Pin
+                          |SEL_3_64_79_Pin|SEL_2_64_79_Pin|SEL_1_80_95_Pin|SEL_2_32_47_Pin
+                          |SEL_3_32_47_Pin|SEL_0_32_47_Pin|SEL_1_32_47_Pin|SEL_3_96_111_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : SEL_1_80_95_Pin */
-  GPIO_InitStruct.Pin = SEL_1_80_95_Pin;
+  /*Configure GPIO pin : SEL_0_80_95_Pin */
+  GPIO_InitStruct.Pin = SEL_0_80_95_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(SEL_1_80_95_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(SEL_0_80_95_GPIO_Port, &GPIO_InitStruct);
 
   /**/
   __HAL_SYSCFG_FASTMODEPLUS_ENABLE(SYSCFG_FASTMODEPLUS_PB6);
@@ -927,13 +927,8 @@ void get_VLP_value(uint16_t *VLP_value)
   {
     for(uint8_t switch_num = 0; switch_num < 8; switch_num++)
     {
-      //set_switches(switch_num, i);
-			HAL_GPIO_WritePin(SEL_0_16_31_GPIO_Port, SEL_0_16_31_Pin, GPIO_PIN_SET);
-      HAL_GPIO_WritePin(SEL_1_16_31_GPIO_Port, SEL_1_16_31_Pin, GPIO_PIN_SET);
-      HAL_GPIO_WritePin(SEL_2_16_31_GPIO_Port, SEL_2_16_31_Pin, GPIO_PIN_RESET);
-      HAL_GPIO_WritePin(SEL_3_16_31_GPIO_Port, SEL_3_16_31_Pin, GPIO_PIN_SET);
+      set_switches(switch_num, i);
     }
-		//set_switches(3, 14);
     
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_buf1, 2);
     HAL_ADC_Start_DMA(&hadc2, (uint32_t *)adc_buf2, 3);
@@ -1010,7 +1005,8 @@ void ADC_task_func(void *argument)
   for(;;)
   {
     get_VLP_value(VLP_value);
-    memcpy((void *)VLP_packet.luminance, VLP_value, sizeof(VLP_value));
+    // memcpy((void *)VLP_packet.luminance, VLP_value, sizeof(VLP_value));
+    switch_formulate(VLP_value, (uint16_t *)VLP_packet.luminance);
     osDelay(1);
   }
   /* USER CODE END ADC_task_func */

@@ -36,5 +36,6 @@ controller\switch.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr.h
 controller\switch.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h
 controller\switch.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h
 controller\switch.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
+controller\switch.o: C:\Keil_v5\ARM\Compiler_v5\Bin\..\include\string.h
 controller\switch.o: ../Core/Inc/main.h
 controller\switch.o: C:\Keil_v5\ARM\Compiler_v5\Bin\..\include\stdlib.h
