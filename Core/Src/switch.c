@@ -70,11 +70,11 @@ void set_switches(uint8_t switch_num, uint8_t value)
 						break;
     }
 		free(pins);
-		//for(int i = 0; i < 100; i++){;}
 }
 
 int8_t switch_select(uint8_t num)
 {
+		return (int8_t)num;
     switch(num)
     {
         case 0:
