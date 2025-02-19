@@ -6,8 +6,7 @@ uint16_t adc_buf3[1];
 uint16_t adc_buf4[1];
 uint16_t adc_buf5[1];
 uint16_t adc_values[8];
-uint8_t adc_done, done_count = 0;
-uint8_t watcher = 0, watcher_bool = 0;
+uint8_t adc_done, adc5_done;
 uint16_t VLP_value[128];
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
@@ -37,9 +36,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
     else if(hadc->Instance == ADC5)
     {
       adc_values[5] = adc_buf5[0];
-      adc_done |= 16;
+      adc5_done = 1;
     }
-    done_count++;
 }
 
 void get_VLP_value(uint16_t *VLP_value)
@@ -51,8 +49,8 @@ void get_VLP_value(uint16_t *VLP_value)
       set_switches(switch_num, i);
     }
 
-    adc_done = 0x00;
-    done_count = 0;
+    adc_done = 0;
+    adc5_done = 0;
 
     for(uint8_t switch_num = 0; switch_num < 8; switch_num++)
     {
@@ -65,23 +63,8 @@ void get_VLP_value(uint16_t *VLP_value)
     HAL_ADC_Start_DMA(&hadc4, (uint32_t *)adc_buf4, 1);
     HAL_ADC_Start_DMA(&hadc5, (uint32_t *)adc_buf5, 1);
 
-    while(adc_done != 0x0F)
-		{
-			if(adc_done == 0x1E)
-        watcher = 1;
-      else if (adc_done == 0x1D)
-        watcher = 2;
-      else if (adc_done == 0x1B)
-        watcher = 3;
-      else if (adc_done == 0x17)
-        watcher = 4;
-      else if (adc_done == 0x0F)
-        watcher = 5;
-      else
-        watcher = 6;
-		}
+    while(adc_done != 0x0F && !adc5_done);
     
-		watcher_bool = 1;
     for(uint8_t j = 0; j < 8; j++)
     {
       VLP_value[i + j * 16] = adc_values[j];//filter_update(&filter[i + j * 16], adc_values[j]);
