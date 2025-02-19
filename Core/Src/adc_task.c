@@ -76,7 +76,6 @@ void get_VLP_value(uint16_t *VLP_value)
 
 void ADC_task(void)
 {
-	adc_task_watchdog = 0;
 	get_VLP_value(VLP_value);
   switch_formulate(VLP_value, (uint16_t *)VLP_packet.luminance);
 }

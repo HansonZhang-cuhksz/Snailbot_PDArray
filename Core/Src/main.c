@@ -69,8 +69,6 @@ uint8_t dsp_task_watchdog;
 
 VLP_packet_t VLP_packet;
 comm_packet_t comm_packet;
-
-checker_t c;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -136,6 +134,7 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 	VLP_packet.header = 0xDD;
+	VLP_packet.header2 = 0x99;
   comm_packet.header = 0x56;
   comm_packet.syn = 0;
 	adc_task_watchdog = 1;
@@ -635,8 +634,7 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
-  pTimeBaseCfg.Period = 0xFFF7;
-  pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_MUL8;
+  pTimeBaseCfg.Period = 0x1540;
   if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimeBaseCfg) != HAL_OK)
   {
     Error_Handler();

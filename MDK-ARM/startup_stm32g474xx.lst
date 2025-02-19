@@ -821,11 +821,12 @@ ARM Macro Assembler    Page 13
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=controller\startup_stm32g474xx.d -ocontroller\startup_stm32g474
 xx.o -I"C:\Users\shuhan\OneDrive - CUHK-Shenzhen\CUHK\Robotics\PhotoFrame\Snail
-bot_PhotoFix\Snailbot_PDArray\MDK-ARM\RTE" -IC:\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS
-\Core\Include -IC:\Arm\Packs\Keil\STM32G4xx_DFP\1.5.0\Drivers\CMSIS\Device\ST\S
-TM32G4xx\Include --predefine="__UVISION_VERSION SETA 514" --predefine="_RTE_ SE
-TA 1" --predefine="STM32G474xx SETA 1" --list=startup_stm32g474xx.lst startup_s
-tm32g474xx.s
+bot_PhotoFix\Snailbot_PDArray\MDK-ARM\RTE" -IC:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\
+Include -IC:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\PrivateInclude -IC:\Arm\Packs\ARM\C
+MSIS\6.1.0\CMSIS\Core\Include -IC:\Arm\Packs\Keil\STM32G4xx_DFP\1.5.0\Drivers\C
+MSIS\Device\ST\STM32G4xx\Include --predefine="__UVISION_VERSION SETA 514" --pre
+define="_RTE_ SETA 1" --predefine="STM32G474xx SETA 1" --list=startup_stm32g474
+xx.lst startup_stm32g474xx.s
 
 
 

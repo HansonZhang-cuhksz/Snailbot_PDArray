@@ -39,7 +39,9 @@ extern "C" {
 typedef __packed struct 
 {
   uint8_t header;
+	uint8_t header2;
   uint16_t luminance[128];
+	uint16_t dsp_data[400];
   uint32_t checksum;
 } VLP_packet_t;
 
@@ -50,12 +52,6 @@ typedef __packed struct
   uint8_t syn;
   uint32_t checksum;
 } comm_packet_t;
-
-typedef struct{
-	uint16_t adc_values[8];
-	uint8_t adc_done[5];
-	uint16_t VLP_value[128];
-} checker_t;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
