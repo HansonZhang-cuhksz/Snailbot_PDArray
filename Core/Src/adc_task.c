@@ -1,5 +1,7 @@
 #include "adc_task.h"
 
+#define LPF_ALPHA 0.1f
+
 uint16_t adc_buf1[2];
 uint16_t adc_buf2[3];
 uint16_t adc_buf3[1];
@@ -67,7 +69,7 @@ void get_VLP_value(uint16_t *VLP_value)
     
     for(uint8_t j = 0; j < 8; j++)
     {
-      VLP_value[i + j * 16] = adc_values[j];//filter_update(&filter[i + j * 16], adc_values[j]);
+      VLP_value[i + j * 16] = LPF_ALPHA * adc_values[j] + (1 - LPF_ALPHA) * VLP_value[i + j * 16];
     }
   }
 }
