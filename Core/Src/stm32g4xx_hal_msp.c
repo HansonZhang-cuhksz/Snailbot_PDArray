@@ -158,7 +158,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_adc1.Init.Mode = DMA_CIRCULAR;
-    hdma_adc1.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_adc1.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
     {
       Error_Handler();
@@ -218,7 +218,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc2.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc2.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_adc2.Init.Mode = DMA_CIRCULAR;
-    hdma_adc2.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_adc2.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     if (HAL_DMA_Init(&hdma_adc2) != HAL_OK)
     {
       Error_Handler();
@@ -270,7 +270,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc3.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc3.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_adc3.Init.Mode = DMA_CIRCULAR;
-    hdma_adc3.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_adc3.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     if (HAL_DMA_Init(&hdma_adc3) != HAL_OK)
     {
       Error_Handler();
@@ -322,7 +322,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc4.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc4.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_adc4.Init.Mode = DMA_CIRCULAR;
-    hdma_adc4.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_adc4.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     if (HAL_DMA_Init(&hdma_adc4) != HAL_OK)
     {
       Error_Handler();
@@ -374,7 +374,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc5.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc5.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_adc5.Init.Mode = DMA_CIRCULAR;
-    hdma_adc5.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_adc5.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     if (HAL_DMA_Init(&hdma_adc5) != HAL_OK)
     {
       Error_Handler();

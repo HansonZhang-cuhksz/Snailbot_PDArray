@@ -76,6 +76,8 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 
 extern VLP_packet_t VLP_packet;
 extern comm_packet_t comm_packet;
+
+extern uint8_t adc_done;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

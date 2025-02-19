@@ -66,15 +66,74 @@ void set_switches(uint8_t switch_num, uint8_t value)
             HAL_GPIO_WritePin(SEL_2_112_127_GPIO_Port, SEL_2_112_127_Pin, pins[2]);
             HAL_GPIO_WritePin(SEL_3_112_127_GPIO_Port, SEL_3_112_127_Pin, pins[3]);
             break;
-				default:
-						break;
+        default:
+                break;
     }
-		free(pins);
+	free(pins);
+}
+
+uint8_t get_switches(uint8_t switch_num)
+{
+    uint8_t pin_state;
+    switch(switch_num)
+    {
+        case 0:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_0_15_GPIO_Port, SEL_0_0_15_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_0_15_GPIO_Port, SEL_1_0_15_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_0_15_GPIO_Port, SEL_2_0_15_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_0_15_GPIO_Port, SEL_3_0_15_Pin) << 3);
+            break;
+        case 1:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_16_31_GPIO_Port, SEL_0_16_31_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_16_31_GPIO_Port, SEL_1_16_31_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_16_31_GPIO_Port, SEL_2_16_31_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_16_31_GPIO_Port, SEL_3_16_31_Pin) << 3);
+            break;
+        case 2:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_32_47_GPIO_Port, SEL_0_32_47_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_32_47_GPIO_Port, SEL_1_32_47_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_32_47_GPIO_Port, SEL_2_32_47_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_32_47_GPIO_Port, SEL_3_32_47_Pin) << 3);
+            break;
+        case 3:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_48_63_GPIO_Port, SEL_0_48_63_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_48_63_GPIO_Port, SEL_1_48_63_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_48_63_GPIO_Port, SEL_2_48_63_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_48_63_GPIO_Port, SEL_3_48_63_Pin) << 3);
+            break;
+        case 4:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_64_79_GPIO_Port, SEL_0_64_79_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_64_79_GPIO_Port, SEL_1_64_79_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_64_79_GPIO_Port, SEL_2_64_79_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_64_79_GPIO_Port, SEL_3_64_79_Pin) << 3);
+            break;
+        case 5:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_80_95_GPIO_Port, SEL_0_80_95_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_80_95_GPIO_Port, SEL_1_80_95_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_80_95_GPIO_Port, SEL_2_80_95_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_80_95_GPIO_Port, SEL_3_80_95_Pin) << 3);
+            break;
+        case 6:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_96_111_GPIO_Port, SEL_0_96_111_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_96_111_GPIO_Port, SEL_1_96_111_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_96_111_GPIO_Port, SEL_2_96_111_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_96_111_GPIO_Port, SEL_3_96_111_Pin) << 3);
+            break;
+        case 7:
+            pin_state |= (HAL_GPIO_ReadPin(SEL_0_112_127_GPIO_Port, SEL_0_112_127_Pin) << 0);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_1_112_127_GPIO_Port, SEL_1_112_127_Pin) << 1);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_2_112_127_GPIO_Port, SEL_2_112_127_Pin) << 2);
+            pin_state |= (HAL_GPIO_ReadPin(SEL_3_112_127_GPIO_Port, SEL_3_112_127_Pin) << 3);
+            break;
+        default:
+            break;
+    }
+    return pin_state;
 }
 
 int8_t switch_select(uint8_t num)
 {
-		return (int8_t)num;
+		//return (int8_t)num;
     switch(num)
     {
         case 0:
