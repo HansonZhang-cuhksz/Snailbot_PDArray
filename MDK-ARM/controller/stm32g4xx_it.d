@@ -42,5 +42,5 @@ controller\stm32g4xx_it.o: ../Core/Inc/stm32g4xx_it.h
 controller\stm32g4xx_it.o: ../Core/Inc/adc_task.h
 controller\stm32g4xx_it.o: ../Core/Inc/switch.h
 controller\stm32g4xx_it.o: C:\Keil_v5\ARM\Compiler_v5\Bin\..\include\string.h
-controller\stm32g4xx_it.o: ../Core/Inc/uart_task.h
 controller\stm32g4xx_it.o: ../Core/Inc/dsp_task.h
+controller\stm32g4xx_it.o: ../Core/Inc/uart_task.h

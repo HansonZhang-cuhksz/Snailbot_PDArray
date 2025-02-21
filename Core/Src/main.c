@@ -24,6 +24,7 @@
 #include "switch.h"
 #include <string.h>
 #include "adc_task.h"
+#include "dsp_task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,7 +111,15 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  VLP_packet.header = 0xDD;
+	VLP_packet.header2 = 0x99;
+  comm_packet.header = 0xEE;
+  comm_packet.header2 = 0x99;
+	adc_task_watchdog = 1;
+	uart_task_watchdog = 1;
+  dsp_task_watchdog = 1;
+  dsp_tick = 0;
+  DSP_init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -133,19 +142,15 @@ int main(void)
   MX_HRTIM1_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-	VLP_packet.header = 0xDD;
-	VLP_packet.header2 = 0x99;
-  comm_packet.header = 0x56;
-  comm_packet.syn = 0;
-	adc_task_watchdog = 1;
-	uart_task_watchdog = 1;
-  dsp_task_watchdog = 1;
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    // dsp_task_watchdog = 0;
+    // DSP_task();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -41,15 +41,15 @@ typedef __packed struct
   uint8_t header;
 	uint8_t header2;
   uint16_t luminance[128];
-	uint16_t dsp_data[400];
+	// uint16_t dsp_data[400];
   uint32_t checksum;
 } VLP_packet_t;
 
 typedef __packed struct 
 {
   uint8_t header;
-  uint8_t data[256];
-  uint8_t syn;
+  uint8_t header2;
+  uint16_t data[400];
   uint32_t checksum;
 } comm_packet_t;
 /* USER CODE END ET */

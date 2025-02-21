@@ -41,3 +41,4 @@ controller\adc_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h
 controller\adc_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
 controller\adc_task.o: ../Core/Inc/switch.h
 controller\adc_task.o: C:\Keil_v5\ARM\Compiler_v5\Bin\..\include\string.h
+controller\adc_task.o: ../Core/Inc/dsp_task.h

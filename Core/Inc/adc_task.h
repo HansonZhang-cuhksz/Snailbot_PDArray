@@ -3,6 +3,7 @@
 
 #include "main.h"
 #include "switch.h"
+#include "dsp_task.h"
 
 extern uint8_t adc_task_watchdog;
 

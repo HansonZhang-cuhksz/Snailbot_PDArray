@@ -356,10 +356,13 @@ void HRTIM1_TIMB_IRQHandler(void)
 {
   /* USER CODE BEGIN HRTIM1_TIMB_IRQn 0 */
 	uart_task_watchdog = 0;
+  // dsp_task_watchdog = 0;
   /* USER CODE END HRTIM1_TIMB_IRQn 0 */
   HAL_HRTIM_IRQHandler(&hhrtim1,HRTIM_TIMERINDEX_TIMER_B);
   /* USER CODE BEGIN HRTIM1_TIMB_IRQn 1 */
 	UART_task();
+  // dsp_tick = 1;
+  DSP_task();
   /* USER CODE END HRTIM1_TIMB_IRQn 1 */
 }
 
@@ -369,11 +372,11 @@ void HRTIM1_TIMB_IRQHandler(void)
 void HRTIM1_TIMC_IRQHandler(void)
 {
   /* USER CODE BEGIN HRTIM1_TIMC_IRQn 0 */
-	dsp_task_watchdog = 0;
+	// dsp_task_watchdog = 0;
   /* USER CODE END HRTIM1_TIMC_IRQn 0 */
   HAL_HRTIM_IRQHandler(&hhrtim1,HRTIM_TIMERINDEX_TIMER_C);
   /* USER CODE BEGIN HRTIM1_TIMC_IRQn 1 */
-	DSP_task();
+	// DSP_task();
   /* USER CODE END HRTIM1_TIMC_IRQn 1 */
 }
 
