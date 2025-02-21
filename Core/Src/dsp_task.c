@@ -5,7 +5,7 @@ uint8_t dsp_tick;
 uint8_t selected_idx = 0xFF;
 dsp_avg_data_t dsp_avg_data[128];
 
-uint16_t dsp_buf[400];
+uint16_t dsp_buf[DSP_SAMPLE_COUNT];
 uint16_t dsp_buf_idx;
 
 uint8_t cumulating;
@@ -85,11 +85,11 @@ void DSP_task(void)
 	}
 
 	// Update dsp to serial
-	if (dsp_buf_idx >= 399)
+	if (dsp_buf_idx >= DSP_SAMPLE_COUNT - 1)
 	{
 		achieved399 = 1;
 		selected_idx = 0xFF;
 		dsp_buf_idx = 0;
-		memcpy(&comm_packet.data, dsp_buf, 400 * sizeof(uint16_t));
+		memcpy(&comm_packet.data, dsp_buf, DSP_SAMPLE_COUNT * sizeof(uint16_t));
 	}
 }

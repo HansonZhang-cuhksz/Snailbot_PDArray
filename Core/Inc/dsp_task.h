@@ -16,7 +16,7 @@ extern uint8_t dsp_tick;
 
 extern uint8_t selected_idx;
 extern dsp_avg_data_t dsp_avg_data[128];
-extern uint16_t dsp_buf[400];
+extern uint16_t dsp_buf[DSP_SAMPLE_COUNT];
 extern uint16_t dsp_buf_idx;
 
 extern uint16_t get_dsp_avg(dsp_avg_data_t* data);

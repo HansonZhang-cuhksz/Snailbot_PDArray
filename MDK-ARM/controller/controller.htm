@@ -3,7 +3,7 @@
 <title>Static Call Graph - [controller\controller.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image controller\controller.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Feb 21 13:41:24 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Fri Feb 21 19:11:31 2025
 <BR><P>
 <H3>Maximum Stack Usage =        280 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -156,8 +156,8 @@ Function Pointers
 Global Symbols
 </H3>
 <P><STRONG><a name="[81]"></a>__main</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, __main.o(!!!main))
-<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
 </UL>
 
 <P><STRONG><a name="[82]"></a>__scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter))
@@ -256,8 +256,8 @@ Global Symbols
 <P><STRONG><a name="[168]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
 
 <P><STRONG><a name="[83]"></a>__rt_entry</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry.o(.ARM.Collect$$rtentry$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
+<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
 <P><STRONG><a name="[169]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000002))
@@ -680,10 +680,10 @@ Global Symbols
 <P><STRONG><a name="[89]"></a>_init_alloc</STRONG> (Thumb, 94 bytes, Stack size 24 bytes, init_alloc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = _init_alloc &rArr; __rt_SIGRTMEM &rArr; __rt_SIGRTMEM_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_Initialize
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_heap_descriptor
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM
+<BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGRTMEM
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_ProvideMemory
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__Heap_Initialize
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_heap_descriptor
 </UL>
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_init_heap_2
 </UL>
@@ -876,7 +876,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b2]"></a>DSP_task</STRONG> (Thumb, 154 bytes, Stack size 16 bytes, dsp_task.o(i.DSP_task))
+<P><STRONG><a name="[b2]"></a>DSP_task</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, dsp_task.o(i.DSP_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = DSP_task &rArr; export_dsp_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;export_dsp_data
@@ -1528,6 +1528,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = HAL_UART_IRQHandler &rArr; HAL_DMA_Abort_IT
 </UL>
 <BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
 <LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_TxCpltCallback
 <LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
@@ -1535,7 +1536,6 @@ Global Symbols
 <LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_TxFifoEmptyCallback
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxFifoFullCallback
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
 </UL>
 <BR>[Called By]<UL><LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
@@ -1718,7 +1718,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_CheckIdleState
 </UL>
 
-<P><STRONG><a name="[112]"></a>UART_task</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, uart_task.o(i.UART_task))
+<P><STRONG><a name="[112]"></a>UART_task</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, uart_task.o(i.UART_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = UART_task &rArr; HAL_UART_Transmit_DMA &rArr; HAL_DMA_Start_IT &rArr; DMA_SetConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit_DMA
@@ -1749,7 +1749,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DSP_task
 </UL>
 
-<P><STRONG><a name="[ad]"></a>get_VLP_value</STRONG> (Thumb, 292 bytes, Stack size 48 bytes, adc_task.o(i.get_VLP_value))
+<P><STRONG><a name="[ad]"></a>get_VLP_value</STRONG> (Thumb, 294 bytes, Stack size 48 bytes, adc_task.o(i.get_VLP_value))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = get_VLP_value &rArr; set_switches &rArr; set_pins &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
 </UL>
 <BR>[Calls]<UL><LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_dsp_avg
