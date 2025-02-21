@@ -11,6 +11,8 @@ uint16_t adc_values[8];
 uint8_t adc_done, adc5_done;
 uint16_t VLP_value[128];
 
+extern uint8_t cumulating;
+
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
     if(hadc->Instance == ADC1)
     {
@@ -74,7 +76,9 @@ void get_VLP_value(uint16_t *VLP_value)
 
       if (selected_idx == i + j * 16 && dsp_buf_idx < 399)
       {
-        dsp_buf[dsp_buf_idx++] = adc_values[j];
+        dsp_buf[dsp_buf_idx] = adc_values[j];
+        dsp_buf_idx++;
+        cumulating = 1;
       }
     }
   }
