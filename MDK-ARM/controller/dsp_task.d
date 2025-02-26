@@ -35,6 +35,8 @@ controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash_r
 controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_hrtim.h
 controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr.h
 controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h
+controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rtc.h
+controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rtc_ex.h
 controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h
 controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h
 controller\dsp_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h

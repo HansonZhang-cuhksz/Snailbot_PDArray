@@ -33,6 +33,8 @@ controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal
 controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_hrtim.h
 controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr.h
 controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h
+controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rtc.h
+controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rtc_ex.h
 controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h
 controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h
 controller\system_stm32g4xx.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h

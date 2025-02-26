@@ -58,6 +58,8 @@ CRC_HandleTypeDef hcrc;
 
 HRTIM_HandleTypeDef hhrtim1;
 
+RTC_HandleTypeDef hrtc;
+
 TIM_HandleTypeDef htim1;
 
 UART_HandleTypeDef huart1;
@@ -85,6 +87,7 @@ static void MX_CRC_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_HRTIM1_Init(void);
 static void MX_TIM1_Init(void);
+static void MX_RTC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -141,6 +144,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_HRTIM1_Init();
   MX_TIM1_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
 	
   /* USER CODE END 2 */
@@ -174,8 +178,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV12;
@@ -195,7 +200,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
@@ -639,7 +644,8 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
-  pTimeBaseCfg.Period = 0x1540;
+  pTimeBaseCfg.Period = 0x8A58;
+  pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_DIV4;
   if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimeBaseCfg) != HAL_OK)
   {
     Error_Handler();
@@ -675,7 +681,6 @@ static void MX_HRTIM1_Init(void)
     Error_Handler();
   }
   pTimeBaseCfg.Period = 0xFFFD;
-  pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_DIV4;
   if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &pTimeBaseCfg) != HAL_OK)
   {
     Error_Handler();
@@ -698,6 +703,72 @@ static void MX_HRTIM1_Init(void)
 	HAL_HRTIM_WaveformCounterStart_IT(&hhrtim1, HRTIM_TIMERID_TIMER_B);
 	HAL_HRTIM_WaveformCounterStart_IT(&hhrtim1, HRTIM_TIMERID_TIMER_C);
   /* USER CODE END HRTIM1_Init 2 */
+
+}
+
+/**
+  * @brief RTC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RTC_Init(void)
+{
+
+  /* USER CODE BEGIN RTC_Init 0 */
+
+  /* USER CODE END RTC_Init 0 */
+
+  RTC_TimeTypeDef sTime = {0};
+  RTC_DateTypeDef sDate = {0};
+
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
+
+  /** Initialize RTC Only
+  */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /* USER CODE BEGIN Check_RTC_BKUP */
+
+  /* USER CODE END Check_RTC_BKUP */
+
+  /** Initialize RTC and set the Time and Date
+  */
+  sTime.Hours = 0x18;
+  sTime.Minutes = 0x56;
+  sTime.Seconds = 0x0;
+  sTime.SubSeconds = 0x0;
+  sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+  sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+  if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sDate.WeekDay = RTC_WEEKDAY_WEDNESDAY;
+  sDate.Month = RTC_MONTH_FEBRUARY;
+  sDate.Date = 0x26;
+  sDate.Year = 0x25;
+
+  if (HAL_RTC_SetDate(&hrtc, &sDate, RTC_FORMAT_BCD) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RTC_Init 2 */
+
+  /* USER CODE END RTC_Init 2 */
 
 }
 

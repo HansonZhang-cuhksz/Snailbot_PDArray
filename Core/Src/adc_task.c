@@ -11,6 +11,12 @@ uint16_t adc_values[8];
 uint8_t adc_done, adc5_done;
 uint16_t VLP_value[128];
 
+uint8_t switch_nums[8];
+uint8_t switch_vals[8];
+
+uint32_t curr_time;
+uint32_t time_diff;
+
 extern uint8_t cumulating;
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
@@ -84,8 +90,15 @@ void get_VLP_value(uint16_t *VLP_value)
   }
 }
 
+void ADC_init(void)
+{
+  time_diff = 0;
+}
+
 void ADC_task(void)
 {
+  if(time_diff < 0xFFFFFFFF)
+    {time_diff++;}
 	get_VLP_value(VLP_value);
   switch_formulate(VLP_value, (uint16_t *)VLP_packet.luminance);
 }

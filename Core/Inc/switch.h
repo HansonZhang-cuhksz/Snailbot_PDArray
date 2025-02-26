@@ -6,6 +6,7 @@
 
 extern void set_switches(uint8_t switch_num, uint8_t value);
 extern uint8_t get_switches(uint8_t switch_num);
+extern int8_t switch_select(uint8_t num);
 extern void switch_formulate(uint16_t* in, uint16_t* out);
 
 #endif // SWITCH_H

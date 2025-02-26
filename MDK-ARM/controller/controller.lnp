@@ -55,6 +55,8 @@
 "controller\stm32g4xx_hal_crc.o"
 "controller\stm32g4xx_hal_crc_ex.o"
 "controller\stm32g4xx_hal_hrtim.o"
+"controller\stm32g4xx_hal_rtc.o"
+"controller\stm32g4xx_hal_rtc_ex.o"
 "controller\stm32g4xx_hal_tim.o"
 "controller\stm32g4xx_hal_tim_ex.o"
 "controller\stm32g4xx_hal_uart.o"

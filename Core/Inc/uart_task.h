@@ -2,6 +2,7 @@
 #define UART_TASK_H
 
 #include "main.h"
+#include "adc_task.h"
 
 extern uint8_t uart_task_watchdog;
 

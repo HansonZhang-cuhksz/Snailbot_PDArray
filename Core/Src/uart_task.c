@@ -4,7 +4,7 @@ void UART_task(void)
 {
 	// VLP_packet.checksum = HAL_CRC_Calculate(&hcrc, (uint32_t*)&VLP_packet, sizeof(VLP_packet) - sizeof(uint32_t));
 	// HAL_UART_Transmit_DMA(&huart1, (uint8_t*)&VLP_packet, sizeof(VLP_packet));
-
+	comm_packet.systick = time_diff;
 	comm_packet.checksum = HAL_CRC_Calculate(&hcrc, (uint32_t*)&comm_packet, sizeof(comm_packet) - sizeof(uint32_t));
 	HAL_UART_Transmit_DMA(&huart1, (uint8_t*)&comm_packet, sizeof(comm_packet));
 }

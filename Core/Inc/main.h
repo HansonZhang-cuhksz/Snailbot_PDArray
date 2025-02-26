@@ -36,7 +36,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-#define DSP_SAMPLE_COUNT 10000
+#define DSP_SAMPLE_COUNT 1000
 
 typedef __packed struct 
 {
@@ -51,6 +51,7 @@ typedef __packed struct
   uint8_t header;
   uint8_t header2;
   uint16_t data[DSP_SAMPLE_COUNT];
+  uint32_t systick;
   uint32_t checksum;
 } comm_packet_t;
 /* USER CODE END ET */

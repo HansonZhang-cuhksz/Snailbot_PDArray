@@ -35,7 +35,13 @@ controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_flash_
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_hrtim.h
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr.h
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_pwr_ex.h
+controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rtc.h
+controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_rtc_ex.h
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim.h
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_tim_ex.h
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart.h
 controller\uart_task.o: ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h
+controller\uart_task.o: ../Core/Inc/adc_task.h
+controller\uart_task.o: ../Core/Inc/switch.h
+controller\uart_task.o: C:\Keil_v5\ARM\Compiler_v5\Bin\..\include\string.h
+controller\uart_task.o: ../Core/Inc/dsp_task.h
