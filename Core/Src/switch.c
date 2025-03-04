@@ -6,7 +6,7 @@
 GPIO_PinState* set_pins(uint8_t value)
 {
     GPIO_PinState* pins = (GPIO_PinState *)malloc(4 * sizeof(GPIO_PinState));
-		pins[0] = (value & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET;
+	pins[0] = (value & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET;
     pins[1] = ((value >> 1) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET;
     pins[2] = ((value >> 2) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET;
     pins[3] = ((value >> 3) & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET;
@@ -67,7 +67,7 @@ void set_switches(uint8_t switch_num, uint8_t value)
             HAL_GPIO_WritePin(SEL_3_112_127_GPIO_Port, SEL_3_112_127_Pin, pins[3]);
             break;
         default:
-                break;
+            break;
     }
 	free(pins);
 }

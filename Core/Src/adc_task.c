@@ -80,7 +80,7 @@ void get_VLP_value(uint16_t *VLP_value)
       VLP_value[i + j * 16] = LPF_ALPHA * adc_values[j] + (1 - LPF_ALPHA) * VLP_value[i + j * 16];
       update_dsp_avg(&dsp_avg_data[i + j * 16], adc_values[j]);
 
-      if (selected_idx == i + j * 16 && dsp_buf_idx < DSP_SAMPLE_COUNT - 1)
+      if (selected_idx == i + j * 16 && dsp_buf_idx <= DSP_SAMPLE_COUNT)
       {
         dsp_buf[dsp_buf_idx] = adc_values[j];
         dsp_buf_idx++;
@@ -97,8 +97,7 @@ void ADC_init(void)
 
 void ADC_task(void)
 {
-  if(time_diff < 0xFFFFFFFF)
-    {time_diff++;}
+  if(time_diff < 0xFFFFFFFF) {time_diff++;}
 	get_VLP_value(VLP_value);
   switch_formulate(VLP_value, (uint16_t *)VLP_packet.luminance);
 }

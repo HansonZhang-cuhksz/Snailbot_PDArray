@@ -31,12 +31,12 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "arm_math.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-#define DSP_SAMPLE_COUNT 1000
+#define DSP_SAMPLE_COUNT 1024
 
 typedef __packed struct 
 {
@@ -50,7 +50,8 @@ typedef __packed struct
 {
   uint8_t header;
   uint8_t header2;
-  uint16_t data[DSP_SAMPLE_COUNT];
+  // uint16_t data[DSP_SAMPLE_COUNT];
+  float32_t dsp_data[DSP_SAMPLE_COUNT / 2];
   uint32_t systick;
   uint32_t checksum;
 } comm_packet_t;

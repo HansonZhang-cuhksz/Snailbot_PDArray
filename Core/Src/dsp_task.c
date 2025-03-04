@@ -1,5 +1,7 @@
 #include "dsp_task.h"
 
+#define DSP_SAMPLE_RATE 1200
+
 uint8_t dsp_tick;
 
 uint8_t selected_idx = 0xFF;
@@ -10,6 +12,16 @@ uint16_t dsp_buf_idx;
 
 uint8_t cumulating;
 uint8_t achieved399 = 0;
+
+arm_rfft_fast_instance_f32 S;
+float32_t input[DSP_SAMPLE_COUNT];
+float32_t output[DSP_SAMPLE_COUNT];
+
+float32_t magnitudes[DSP_SAMPLE_COUNT / 2];
+
+float32_t top3_freqs[3];
+
+uint8_t arm_math_valid = 0;
 
 uint16_t get_dsp_avg(dsp_avg_data_t* data)
 {
@@ -36,6 +48,32 @@ void export_dsp_data(dsp_avg_data_t* data, uint16_t* buffer)
 	memcpy(&buffer[50 - data->index], data->data, data->index * sizeof(uint16_t));
 }
 
+void DSP_process(uint16_t* input_raw)
+{
+    // Convert input data to float32
+    for (uint16_t i = 0; i < DSP_SAMPLE_COUNT; i++)
+    {
+        input[i] = (float32_t)input_raw[i];
+    }
+
+    // Perform the FFT
+    if (arm_rfft_fast_init_f32(&S, DSP_SAMPLE_COUNT) != ARM_MATH_SUCCESS)
+    {
+		arm_math_valid = 0;
+        return;
+    }
+	arm_math_valid = 1;
+    arm_rfft_fast_f32(&S, input, output, 0);
+
+    // Calculate magnitudes of the FFT output
+    for (uint16_t i = 0; i < DSP_SAMPLE_COUNT / 2; i++)
+    {
+        magnitudes[i] = sqrtf(output[2 * i] * output[2 * i] + output[2 * i + 1] * output[2 * i + 1]);
+	}
+
+	memcpy((void*)comm_packet.dsp_data, (void*)magnitudes, DSP_SAMPLE_COUNT * sizeof(uint32_t) / 2);
+}
+
 void DSP_init(void)
 {
 	dsp_buf_idx = 0;
@@ -48,11 +86,6 @@ void DSP_init(void)
 
 void DSP_task(void)
 {
-	// if (!dsp_tick)
-	// {
-	// 	return;
-	// }
-
 	dsp_task_watchdog = 0;
 
 	uint16_t min = 0xFFFF;
@@ -85,11 +118,11 @@ void DSP_task(void)
 	}
 
 	// Update dsp to serial
-	if (dsp_buf_idx >= DSP_SAMPLE_COUNT - 1)
+	if (dsp_buf_idx >= DSP_SAMPLE_COUNT)
 	{
 		achieved399 = 1;
 		selected_idx = 0xFF;
 		dsp_buf_idx = 0;
-		memcpy(&comm_packet.data, dsp_buf, DSP_SAMPLE_COUNT * sizeof(uint16_t));
+		DSP_process(dsp_buf);
 	}
 }

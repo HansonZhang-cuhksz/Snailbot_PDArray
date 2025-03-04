@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Component Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'controller' 
- * Target:  'controller' 
+ * Project: 'controller_RET6' 
+ * Target:  'controller_RET6' 
  */
 
 #ifndef RTE_COMPONENTS_H
