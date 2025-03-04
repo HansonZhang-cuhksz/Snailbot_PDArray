@@ -77,14 +77,14 @@ void get_VLP_value(uint16_t *VLP_value)
     
     for(uint8_t j = 0; j < 8; j++)
     {
-      VLP_value[i + j * 16] = LPF_ALPHA * adc_values[j] + (1 - LPF_ALPHA) * VLP_value[i + j * 16];
-      update_dsp_avg(&dsp_avg_data[i + j * 16], adc_values[j]);
+      uint8_t sensor_idx = i + j * 16;
+      VLP_value[sensor_idx] = LPF_ALPHA * adc_values[j] + (1 - LPF_ALPHA) * VLP_value[sensor_idx];
+      update_dsp_avg(&dsp_avg_data[sensor_idx], adc_values[j]);
 
-      if (selected_idx == i + j * 16 && dsp_buf_idx <= DSP_SAMPLE_COUNT)
+      if (dsp_buf_idx[sensor_idx] > -1 && dsp_buf_idx[sensor_idx] <= DSP_SAMPLE_COUNT)
       {
-        dsp_buf[dsp_buf_idx] = adc_values[j];
-        dsp_buf_idx++;
-        cumulating = 1;
+        dsp_buf[sensor_idx][dsp_buf_idx[sensor_idx]] = adc_values[j];
+        dsp_buf_idx[sensor_idx]++;
       }
     }
   }

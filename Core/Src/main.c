@@ -66,10 +66,6 @@ UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
-uint8_t adc_task_watchdog;
-uint8_t uart_task_watchdog;
-uint8_t dsp_task_watchdog;
-
 VLP_packet_t VLP_packet;
 comm_packet_t comm_packet;
 /* USER CODE END PV */
@@ -118,10 +114,6 @@ int main(void)
 	VLP_packet.header2 = 0x99;
   comm_packet.header = 0xEE;
   comm_packet.header2 = 0x99;
-	adc_task_watchdog = 1;
-	uart_task_watchdog = 1;
-  dsp_task_watchdog = 1;
-  dsp_tick = 0;
   DSP_init();
   /* USER CODE END Init */
 
@@ -645,7 +637,7 @@ static void MX_HRTIM1_Init(void)
   {
     Error_Handler();
   }
-  pTimeBaseCfg.Period = 0xDD5;
+  pTimeBaseCfg.Period = 0x7695;
   pTimeBaseCfg.PrescalerRatio = HRTIM_PRESCALERRATIO_DIV4;
   if (HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &pTimeBaseCfg) != HAL_OK)
   {

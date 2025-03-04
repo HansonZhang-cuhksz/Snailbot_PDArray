@@ -36,13 +36,14 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-#define DSP_SAMPLE_COUNT 1024
+#define DSP_SAMPLE_COUNT 256
 
 typedef __packed struct 
 {
   uint8_t header;
 	uint8_t header2;
   uint16_t luminance[128];
+  uint16_t freq[128];
   uint32_t checksum;
 } VLP_packet_t;
 

@@ -11,13 +11,9 @@ typedef struct
 	uint8_t index;
 } dsp_avg_data_t;
 
-extern uint8_t dsp_task_watchdog;
-extern uint8_t dsp_tick;
-
-extern uint8_t selected_idx;
 extern dsp_avg_data_t dsp_avg_data[128];
-extern uint16_t dsp_buf[DSP_SAMPLE_COUNT];
-extern uint16_t dsp_buf_idx;
+extern int16_t dsp_buf_idx[128];
+extern uint16_t dsp_buf[128][DSP_SAMPLE_COUNT];
 
 extern uint16_t get_dsp_avg(dsp_avg_data_t* data);
 extern void update_dsp_avg(dsp_avg_data_t* data, uint16_t value);
