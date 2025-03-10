@@ -1,8 +1,0 @@
---cpu Cortex-M4.fp -g --apcs=interwork 
--I "C:\Users\shuhan\OneDrive - CUHK-Shenzhen\CUHK\Robotics\PhotoFrame\Snailbot_PhotoFix\Snailbot_PDArray_dsp\MDK-ARM\RTE"
--I C:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\Include
--I C:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\PrivateInclude
--I C:\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include
--I C:\Arm\Packs\Keil\STM32G4xx_DFP\1.5.0\Drivers\CMSIS\Device\ST\STM32G4xx\Include
---pd "__UVISION_VERSION SETA 514" --pd "_RTE_ SETA 1" --pd "STM32G474xx SETA 1"
---list startup_stm32g474xx.lst --xref -o controller\startup_stm32g474xx.o --depend controller\startup_stm32g474xx.d "startup_stm32g474xx.s"

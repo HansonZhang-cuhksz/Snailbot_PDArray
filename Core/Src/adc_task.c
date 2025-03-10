@@ -86,6 +86,11 @@ void get_VLP_value(uint16_t *VLP_value)
         dsp_buf[sensor_idx][dsp_buf_idx[sensor_idx]] = adc_values[j];
         dsp_buf_idx[sensor_idx]++;
       }
+
+      if (recv_pd_idx == sensor_idx)
+      {
+        vlc_read(adc_values[j]);
+      }
     }
   }
 }

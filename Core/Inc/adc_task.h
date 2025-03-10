@@ -5,6 +5,7 @@
 #include "switch.h"
 #include "dsp_task.h"
 #include "stm32g4xx_hal_rtc.h"
+#include "vlc.h"
 
 extern uint8_t adc_task_watchdog;
 

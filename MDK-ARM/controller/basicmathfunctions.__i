@@ -1,8 +1,0 @@
---c99 -c --cpu Cortex-M4.fp -g -O3 --apcs=interwork --split_sections -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include
--I "C:\Users\shuhan\OneDrive - CUHK-Shenzhen\CUHK\Robotics\PhotoFrame\Snailbot_PhotoFix\Snailbot_PDArray_dsp\MDK-ARM\RTE"
--I C:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\Include
--I C:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\PrivateInclude
--I C:\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include
--I C:\Arm\Packs\Keil\STM32G4xx_DFP\1.5.0\Drivers\CMSIS\Device\ST\STM32G4xx\Include
--D__UVISION_VERSION="514" -D_RTE_ -DSTM32G474xx -DUSE_HAL_DRIVER -DSTM32G474xx
--o controller\basicmathfunctions.o --omf_browse controller\basicmathfunctions.crf --depend controller\basicmathfunctions.d "C:\Arm\Packs\ARM\CMSIS-DSP\1.16.2\Source\BasicMathFunctions\BasicMathFunctions.c"

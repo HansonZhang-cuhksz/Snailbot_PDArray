@@ -1,8 +1,5 @@
 #include "dsp_task.h"
 
-#define DSP_SAMPLE_RATE 1400
-// #define K_DSP 300/262.5f
-
 dsp_avg_data_t dsp_avg_data[128];
 arm_rfft_fast_instance_f32 S;
 uint16_t dsp_buf[128][DSP_SAMPLE_COUNT];
@@ -65,7 +62,7 @@ uint16_t DSP_process(uint16_t* input_raw, uint16_t idx)
     // Calculate magnitudes of the FFT output
 	uint16_t max_freq = 0;
 	float32_t max_magnitude = 5000;
-    for (uint16_t i = 5; i < DSP_SAMPLE_COUNT / 2; i++)
+    for (uint16_t i = 10; i < DSP_SAMPLE_COUNT / 2; i++)
     {
         float32_t magnitude = sqrtf(output[2 * i] * output[2 * i] + output[2 * i + 1] * output[2 * i + 1]);
 		if (magnitude > max_magnitude)

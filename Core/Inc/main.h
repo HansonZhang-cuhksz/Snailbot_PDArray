@@ -31,12 +31,13 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "arm_math.h"
+#include "dsp/transform_functions.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 #define DSP_SAMPLE_COUNT 256
+#define DSP_SAMPLE_RATE 1400
 
 typedef __packed struct 
 {
@@ -46,16 +47,6 @@ typedef __packed struct
   uint16_t freq[128];
   uint32_t checksum;
 } VLP_packet_t;
-
-typedef __packed struct 
-{
-  uint8_t header;
-  uint8_t header2;
-  // uint16_t data[DSP_SAMPLE_COUNT];
-  float32_t dsp_data[DSP_SAMPLE_COUNT / 2];
-  uint32_t systick;
-  uint32_t checksum;
-} comm_packet_t;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -75,7 +66,6 @@ extern UART_HandleTypeDef huart1;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 
 extern VLP_packet_t VLP_packet;
-extern comm_packet_t comm_packet;
 
 extern uint8_t adc_done;
 /* USER CODE END EC */

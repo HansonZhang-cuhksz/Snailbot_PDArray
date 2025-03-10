@@ -67,7 +67,6 @@ DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 VLP_packet_t VLP_packet;
-comm_packet_t comm_packet;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,9 +111,8 @@ int main(void)
   /* USER CODE BEGIN Init */
   VLP_packet.header = 0xDD;
 	VLP_packet.header2 = 0x99;
-  comm_packet.header = 0xEE;
-  comm_packet.header2 = 0x99;
   DSP_init();
+  vlc_init();
   /* USER CODE END Init */
 
   /* Configure the system clock */

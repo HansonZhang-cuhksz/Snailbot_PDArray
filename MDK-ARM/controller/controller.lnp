@@ -36,6 +36,7 @@
 "controller\main.o"
 "controller\stm32g4xx_it.o"
 "controller\stm32g4xx_hal_msp.o"
+"controller\vlc.o"
 "controller\stm32g4xx_hal_adc.o"
 "controller\stm32g4xx_hal_adc_ex.o"
 "controller\stm32g4xx_ll_adc.o"

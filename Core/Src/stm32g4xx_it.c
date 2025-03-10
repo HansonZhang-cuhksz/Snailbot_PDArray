@@ -359,6 +359,7 @@ void HRTIM1_TIMB_IRQHandler(void)
   /* USER CODE BEGIN HRTIM1_TIMB_IRQn 1 */
 	UART_task();
   DSP_task();
+  vlc_task();
   /* USER CODE END HRTIM1_TIMB_IRQn 1 */
 }
 
